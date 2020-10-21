@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -28,11 +31,37 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {  
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   bool _visible = true;
+  
+  Completer<GoogleMapController> _control = Completer();
+  static const LatLng _head = const LatLng(44, -109);
+  final Set<Marker> _marker = {};
+  LatLng _lastPosition = _head;
+  MapType _mapType = MapType.normal;
 
+  _mapCreated(GoogleMapController controller) {
+    _control.complete(controller);
+  }
+
+  _cameraMove(CameraPosition position) {
+    _lastPosition = position.target;
+  }
+  
+    Widget button(Function function, IconData icon) {
+    return FloatingActionButton(
+      onPressed: function,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      backgroundColor: Colors.blueAccent,
+      child: Icon(
+        icon,
+        size: 30.0,
+      ),
+    );
+  }
+  
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -52,6 +81,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
+          GoogleMap(
+            onMapCreated: _mapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _head,
+              zoom: 10.0,
+              tilt: 0.0,
+            ),
+            mapType: _mapType,
+            markers: _marker,
+            onCameraMove: _cameraMove,
+          ),
           Center(
             child: ElevatedButton(
               onPressed: () {
