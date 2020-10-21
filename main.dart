@@ -31,10 +31,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
+  bool _visible = true;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void _toggle() {
+    setState(() {
+      _visible = !_visible;
     });
   }
 
@@ -43,13 +50,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
+        clipBehavior: Clip.none,
         children: <Widget>[
           Center(
-              child: Column(
-            children: <Widget>[],
-          )),
-          Positioned(
-            top: 2.0,
+            child: ElevatedButton(
+              onPressed: () {
+                _toggle();
+              },
+              child: Text("Yo"),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 500),
+            top: _visible ? 2.0 : -30.0,
             right: 2.0,
             child: Row(
               children: <Widget>[
@@ -57,20 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(Icons.search),
                   tooltip: 'Search',
                   onPressed: () {},
-                ),
-                Ink(
-                  decoration: ShapeDecoration(
-                    color: Colors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5)),
-                    ),
-                child: IconButton(
-                  icon: Icon(Icons.menu),
-                  tooltip: 'Menu',
-                  onPressed: () {
-                    _scaffoldKey.currentState.openEndDrawer();
-                  },
-                ),
                 ),
               ],
             ),
@@ -114,36 +113,37 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.crop_original),
-            label: 'Campsites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saves',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          AnimatedContainer(
+            height: _visible ? 45.0 : 0,
+            duration: Duration(milliseconds: 500),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 0.25, color: Colors.black),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.home, color: Colors.green),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.search, color: Colors.green),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.person, color: Colors.green),
+                  onPressed: () {},
+                )
+              ],
+            ),
           ),
         ],
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.green,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        iconSize: 30.0,
-        elevation: 100.0,
-        onTap: _onItemTapped,
       ),
-      //),
     );
   }
 }
