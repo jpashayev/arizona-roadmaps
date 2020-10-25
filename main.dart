@@ -117,7 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _scaffoldKey.currentState.openEndDrawer();
+        },
         materialTapTargetSize: MaterialTapTargetSize.padded,
         backgroundColor: Colors.blueAccent,
         mini: true,
@@ -126,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       endDrawer: SizedBox(
-        width: 175.0,
+        width: 200.0,
         child: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
