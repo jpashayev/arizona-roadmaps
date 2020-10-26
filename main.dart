@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:app_one/ThirdPage.dart';
+import 'package:app_one/SecondPage.dart';
 
 
 void main() {
@@ -31,16 +33,21 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {  
+class _MyHomePageState extends State<MyHomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectedIndex = 0;
   bool _visible = true;
-  
+
   Completer<GoogleMapController> _control = Completer();
-  static const LatLng _head = const LatLng(44, -109);
+  static const LatLng _head = const LatLng(34.048927, -111.093735);
   final Set<Marker> _marker = {};
   LatLng _lastPosition = _head;
   MapType _mapType = MapType.normal;
+  static final CameraPosition posOne = CameraPosition(
+      target: LatLng(33.048927, -111.093735),
+      bearing: 192.111,
+      tilt: 11.0,
+      zoom: 10.0
+  );
 
   _mapCreated(GoogleMapController controller) {
     _control.complete(controller);
@@ -49,8 +56,42 @@ class _MyHomePageState extends State<MyHomePage> {
   _cameraMove(CameraPosition position) {
     _lastPosition = position.target;
   }
-  
-    Widget button(Function function, IconData icon) {
+
+  _onMapTypeButtonPressed() {
+    setState(() {
+      _mapType = _mapType == MapType.normal
+          ? MapType.satellite
+          : MapType.normal;
+    });
+ }
+
+ _onMarkerButtonPressed() {
+    setState(() {
+      _marker.add(Marker(
+        markerId: MarkerId(_lastPosition.toString()),
+        position: _lastPosition,
+        infoWindow: InfoWindow(
+          title: 'Marker Title',
+          snippet: 'snippet'
+        ),
+        icon: BitmapDescriptor.defaultMarker,
+      ),
+      );
+    });
+ }
+
+  void _toggle() {
+    setState(() {
+      _visible = !_visible;
+    });
+  }
+
+  Future<void> _goToPosition() async{
+    final GoogleMapController controller = await _control.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(posOne));
+  }
+
+  Widget button(Function function, IconData icon) {
     return FloatingActionButton(
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -60,18 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
         size: 30.0,
       ),
     );
-  }
-  
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _toggle() {
-    setState(() {
-      _visible = !_visible;
-    });
   }
 
   @override
@@ -85,19 +114,44 @@ class _MyHomePageState extends State<MyHomePage> {
             onMapCreated: _mapCreated,
             initialCameraPosition: CameraPosition(
               target: _head,
-              zoom: 10.0,
-              tilt: 0.0,
+              zoom: 7.0,
+              tilt: 2.5,
             ),
             mapType: _mapType,
             markers: _marker,
             onCameraMove: _cameraMove,
           ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                _toggle();
-              },
-              child: Text("Yo"),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: EdgeInsets.only(top: 28.0,),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _toggle();
+                    },
+                    child: Text("Yo"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onMapTypeButtonPressed();
+                    },
+                    child: Icon(Icons.map_outlined),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onMarkerButtonPressed();
+                    },
+                    child: Icon(Icons.post_add),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _goToPosition();
+                    },
+                    child: Icon(Icons.my_location),
+                  ),
+              ],),
             ),
           ),
           AnimatedPositioned(
@@ -128,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       endDrawer: SizedBox(
-        width: 200.0,
+        width: 175.0,
         child: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -179,11 +233,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.home_sharp, color: Colors.green),
+                  icon: Icon(Icons.home, color: Colors.green),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.search_sharp, color: Colors.green),
+                  icon: Icon(Icons.search, color: Colors.green),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -192,7 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.person_sharp, color: Colors.green),
+                  icon: Icon(Icons.person, color: Colors.green),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -204,106 +258,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class SecondPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Search"),
-      ),
-      bottomNavigationBar: Container(
-        height: 45.0,
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(width: 0.25, color: Colors.black),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.home_sharp, color: Colors.green),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.search_sharp, color: Colors.green),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SecondPage()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.person_sharp, color: Colors.green),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ThirdPage()),
-                );
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ThirdPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Placeholder"),
-      ),
-      bottomNavigationBar: Container(
-        height: 45.0,
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(width: 0.25, color: Colors.black),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.home_sharp, color: Colors.green),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.search_sharp, color: Colors.green),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SecondPage()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.person_sharp, color: Colors.green),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ThirdPage()),
-                );
-              },
-            )
-          ],
-        ),
       ),
     );
   }
