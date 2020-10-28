@@ -107,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      extendBody: true,
       body: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
@@ -228,6 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
               border: Border(
                 top: BorderSide(width: 0.25, color: Colors.black),
               ),
+              color: Colors.white;
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
