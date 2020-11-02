@@ -222,6 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.home, color: Colors.green),
+                  iconSize: 30.0,
                   onPressed: () {},
                 ),
                 IconButton(
