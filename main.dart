@@ -155,20 +155,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ],),
             ),
           ),
-          AnimatedPositioned(
-            duration: Duration(milliseconds: 500),
-            top: _visible ? 2.0 : -30.0,
-            right: 2.0,
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  tooltip: 'Search',
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -239,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.search, color: Colors.green),
+                  icon: Icon(Icons.search, color: Colors.grey),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -248,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.person, color: Colors.green),
+                  icon: Icon(Icons.person, color: Colors.grey),
                   onPressed: () {
                     Navigator.push(
                       context,
