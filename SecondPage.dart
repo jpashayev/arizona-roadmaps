@@ -20,13 +20,14 @@ class SecondPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.home_sharp, color: Colors.green),
+              icon: Icon(Icons.home_sharp, color: Colors.grey),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             IconButton(
               icon: Icon(Icons.search_sharp, color: Colors.green),
+              iconSize: 30.0,
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -36,7 +37,7 @@ class SecondPage extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.person_sharp, color: Colors.green),
+              icon: Icon(Icons.person_sharp, color: Colors.grey),
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
