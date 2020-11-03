@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:app_one/ThirdPage.dart';
-import 'package:app_one/SecondPage.dart';
-
+import 'package:flutter_app/ThirdPage.dart';
+import 'package:flutter_app/SecondPage.dart';
+import 'package:flutter_app/BottomNav.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,8 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       target: LatLng(33.048927, -111.093735),
       bearing: 192.111,
       tilt: 11.0,
-      zoom: 10.0
-  );
+      zoom: 10.0);
 
   _mapCreated(GoogleMapController controller) {
     _control.complete(controller);
@@ -59,26 +58,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _onMapTypeButtonPressed() {
     setState(() {
-      _mapType = _mapType == MapType.normal
-          ? MapType.satellite
-          : MapType.normal;
+      _mapType =
+          _mapType == MapType.normal ? MapType.satellite : MapType.normal;
     });
- }
+  }
 
- _onMarkerButtonPressed() {
+  _onMarkerButtonPressed() {
     setState(() {
-      _marker.add(Marker(
-        markerId: MarkerId(_lastPosition.toString()),
-        position: _lastPosition,
-        infoWindow: InfoWindow(
-          title: 'Marker Title',
-          snippet: 'snippet'
+      _marker.add(
+        Marker(
+          markerId: MarkerId(_lastPosition.toString()),
+          position: _lastPosition,
+          infoWindow: InfoWindow(title: 'Marker Title', snippet: 'snippet'),
+          icon: BitmapDescriptor.defaultMarker,
         ),
-        icon: BitmapDescriptor.defaultMarker,
-      ),
       );
     });
- }
+  }
 
   void _toggle() {
     setState(() {
@@ -86,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> _goToPosition() async{
+  Future<void> _goToPosition() async {
     final GoogleMapController controller = await _control.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(posOne));
   }
@@ -125,7 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: EdgeInsets.only(top: 28.0,),
+              padding: EdgeInsets.only(
+                top: 28.0,
+              ),
               child: Column(
                 children: [
                   ElevatedButton(
@@ -152,7 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: Icon(Icons.my_location),
                   ),
-              ],),
+                ],
+              ),
             ),
           ),
         ],
@@ -205,49 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          AnimatedContainer(
-            height: _visible ? 45.0 : 0,
-            duration: Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 0.25, color: Colors.black),
-              ),
-              color: Colors.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.home, color: Colors.green),
-                  iconSize: 30.0,
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.search, color: Colors.grey),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SecondPage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.person, color: Colors.grey),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ThirdPage()),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+      bottomNavigationBar: bottomNav(context, _visible),
     );
   }
 }
