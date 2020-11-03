@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
               border: Border(
                 top: BorderSide(width: 0.25, color: Colors.black),
               ),
-              color: Colors.white;
+              color: Colors.white,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
