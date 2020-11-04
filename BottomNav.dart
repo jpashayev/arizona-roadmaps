@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/SecondPage.dart';
-import 'package:flutter_app/ThirdPage.dart';
+import 'package:app_one/SecondPage.dart';
+import 'package:app_one/ThirdPage.dart';
 
 Widget bottomNav(BuildContext context, bool _visible) {
   return AnimatedContainer(
