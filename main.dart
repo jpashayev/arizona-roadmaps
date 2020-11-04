@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_app/ThirdPage.dart';
-import 'package:flutter_app/SecondPage.dart';
-import 'package:flutter_app/BottomNav.dart';
+import 'package:app_one/ThirdPage.dart';
+import 'package:app_one/SecondPage.dart';
+import 'package:app_one/BottomNav.dart';
 
 void main() {
   runApp(MyApp());
