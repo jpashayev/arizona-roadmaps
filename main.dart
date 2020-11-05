@@ -215,3 +215,48 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+/*
+// for creating items in drawar
+///////////////////
+// instead if list titles above, we can now inside of a drawer
+// do for example: CustomListTitle(Icons.settings, 'Settings', ()=>{})
+class CustomListTile extends StatelessWidget{
+  
+  Function onTap;
+  String text;
+  IconData icon;
+  
+  CustomListTile(this.icon, this.text, this.onTap);
+  
+  @override
+  Widget build(BuildContext context) {
+    // TOTO: implement build
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(icon),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(text, style: TextStyle(
+                      fontSize: 16.0
+                  ),),
+                ),
+              ],
+            ),
+          ],
+        ),
+       ),
+     ),
+    );
+  }
+}
+*/   
+              
