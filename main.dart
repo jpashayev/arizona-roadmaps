@@ -108,6 +108,13 @@ class _MyHomePageState extends State<MyHomePage> {
         clipBehavior: Clip.none,
         children: <Widget>[
           GoogleMap(
+            onTap: (argument) => _toggle(),
+            zoomControlsEnabled: false,
+            // gestureRecognizers: GestureRecognizerFactory(
+            //
+            // ),
+            compassEnabled: true,
+            myLocationButtonEnabled: false,
             onMapCreated: _mapCreated,
             initialCameraPosition: CameraPosition(
               target: _head,
@@ -118,6 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
             markers: _marker,
             onCameraMove: _cameraMove,
           ),
+          // GestureDetector(
+          //   onTap: () {
+          //     _toggle();
+          //   },
+          // ),
           Align(
             alignment: Alignment.topRight,
             child: Padding(
@@ -126,12 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Column(
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      _toggle();
-                    },
-                    child: Text("Yo"),
-                  ),
                   ElevatedButton(
                     onPressed: () {
                       _onMapTypeButtonPressed();
@@ -157,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        tooltip: "Settings Page",
         onPressed: () {
           _scaffoldKey.currentState.openEndDrawer();
         },
