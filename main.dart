@@ -180,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              ListTile(
+              /*ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text('Profile'),
                 onTap: () {
@@ -206,7 +206,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   // ...
                   Navigator.pop(context);
                 },
-              ),
+              ),*/
+              CustomListTile(Icons.help_outline_sharp, 'Help', ()=>{}),
+              CustomListTile(Icons.settings_outlined, 'App Settings', ()=>{}),
+              CustomListTile(Icons.redeem_sharp, 'Wishlist', ()=>{}),
+         
             ],
           ),
         ),
@@ -215,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-/*
+
 // for creating items in drawar
 ///////////////////
 // instead if list titles above, we can now inside of a drawer
@@ -233,10 +237,14 @@ class CustomListTile extends StatelessWidget{
     // TOTO: implement build
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+        ),
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 40,
+          height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -254,9 +262,10 @@ class CustomListTile extends StatelessWidget{
           ],
         ),
        ),
+       ),
      ),
     );
   }
 }
-*/   
+   
               
