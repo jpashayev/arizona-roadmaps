@@ -4,8 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
-
-  GMaps(this._toggle);
+  final _scaffoldKey;
+  GMaps(this._toggle, this._scaffoldKey);
 
   @override
   _GMapsState createState() => _GMapsState();
@@ -57,6 +57,18 @@ class _GMapsState extends State<GMaps> {
     controller.animateCamera(CameraUpdate.newCameraPosition(posOne));
   }
 
+  Widget button(Function function, IconData icon) {
+    return FloatingActionButton(
+      onPressed: function,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      backgroundColor: Colors.blueAccent,
+      child: Icon(
+        icon,
+        size: 30.0,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -105,6 +117,12 @@ class _GMapsState extends State<GMaps> {
                     _goToPosition();
                   },
                   child: Icon(Icons.my_location),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    this.widget._scaffoldKey.currentState.openEndDrawer();
+                  },
+                  child: Icon(Icons.settings_applications_sharp),
                 ),
               ],
             ),

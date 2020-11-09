@@ -1,44 +1,49 @@
-import 'package:flutter/material.dart';
-import 'package:app_one/SecondPage.dart';
+import 'package:app_one/SearchPage.dart';
 import 'package:app_one/ThirdPage.dart';
+import 'package:flutter/material.dart';
+import 'Detail.dart';
+import 'dart:core';
 
-Widget bottomNav(BuildContext context, bool _visible) {
-  return AnimatedContainer(
-    height: _visible ? 45.0 : 0,
-    duration: Duration(milliseconds: 500),
-    decoration: BoxDecoration(
-      border: Border(
-        top: BorderSide(width: 0.25, color: Colors.black),
+  Widget bottomNav(BuildContext context, bool _visible) {
+    return AnimatedContainer(
+      // key: _scaffoldKey,
+      height: _visible ? 45.0 : 0,
+      duration: Duration(milliseconds: 500),
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 0.25, color: Colors.black),
+        ),
+        color: Colors.white,
       ),
-      color: Colors.white,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.home, color: Colors.green),
-          iconSize: 30.0,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Icon(Icons.search, color: Colors.grey),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondPage()),
-            );
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.person, color: Colors.grey),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ThirdPage()),
-            );
-          },
-        )
-      ],
-    ),
-  );
-}
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.home, color: Colors.green),
+            iconSize: 30.0,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.green),
+            onPressed: () {
+              showSearch(context: context, delegate: DataSearch(listWords));
+
+              MaterialPageRoute(builder: (context) => SearchPage()
+              );
+            },
+          ),
+
+          IconButton(
+            icon: Icon(Icons.account_box_outlined, color: Colors.grey),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ThirdPage()),
+              );
+            },
+          ),
+
+        ],
+      ),
+    );
+  }
