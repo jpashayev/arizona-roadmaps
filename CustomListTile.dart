@@ -17,6 +17,7 @@ class CustomListTile extends StatelessWidget{
             border: Border(bottom: BorderSide(color: Colors.grey.shade400))
         ),
         child: InkWell(
+          splashColor: Colors.greenAccent,
           onTap: onTap,
           child: Container(
             height: 50,
