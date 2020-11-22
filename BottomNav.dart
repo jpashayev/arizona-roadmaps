@@ -1,4 +1,7 @@
+import 'package:app_one/SearchPage.dart';
+import 'package:app_one/ThirdPage.dart';
 import 'package:flutter/material.dart';
+import 'Detail.dart';
 import 'dart:core';
 
 Widget bottomNav(BuildContext context, bool _visible, key _scaffoldKey) {
