@@ -4,8 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
-  final _scaffoldKey;
-  GMaps(this._toggle, this._scaffoldKey);
+  
+  GMaps(this._toggle);
 
   @override
   _GMapsState createState() => _GMapsState();
@@ -117,12 +117,6 @@ class _GMapsState extends State<GMaps> {
                     _goToPosition();
                   },
                   child: Icon(Icons.my_location),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    this.widget._scaffoldKey.currentState.openEndDrawer();
-                  },
-                  child: Icon(Icons.settings_applications_sharp),
                 ),
               ],
             ),
