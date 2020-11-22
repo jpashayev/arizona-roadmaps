@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'Detail.dart';
 import 'dart:core';
 
-Widget bottomNav(BuildContext context, bool _visible, key _scaffoldKey) {
+Widget bottomNav(BuildContext context, bool _visible, final _scaffoldKey) {
   return AnimatedContainer(
     height: _visible ? 45.0 : 0,
     duration: Duration(milliseconds: 500),
@@ -40,7 +40,7 @@ Widget bottomNav(BuildContext context, bool _visible, key _scaffoldKey) {
           },
         ),
         IconButton(
-          icon: Icon(Icons.settings_applications_sharp),
+          icon: Icon(Icons.settings_sharp, color: Colors.grey),
           onPressed: () {
             _scaffoldKey.currentState.openEndDrawer();
           },
