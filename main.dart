@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
-          GMaps(_toggle, _scaffoldKey),
+          GMaps(_toggle),
         ],
       ),
       endDrawer: SizedBox(
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: bottomNav(context, _visible),
+      bottomNavigationBar: bottomNav(context, _visible, _scaffoldKey),
     );
   }
 }
