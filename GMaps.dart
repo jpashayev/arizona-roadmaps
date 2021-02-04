@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
-  
+
   GMaps(this._toggle);
 
   @override
@@ -16,8 +17,13 @@ class _GMapsState extends State<GMaps> {
   Completer<GoogleMapController> _control = Completer();
   static const LatLng _head = const LatLng(34.048927, -111.093735);
   final Set<Marker> _marker = {};
+  final Set<Polyline> _polyline = {};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  Marker lastMarker;
   LatLng _lastPosition = _head;
   MapType _mapType = MapType.normal;
+
   static final CameraPosition posOne = CameraPosition(
       target: LatLng(33.048927, -111.093735),
       bearing: 192.111,
@@ -41,15 +47,54 @@ class _GMapsState extends State<GMaps> {
 
   _onMarkerButtonPressed() {
     setState(() {
-      _marker.add(
-        Marker(
-          markerId: MarkerId(_lastPosition.toString()),
-          position: _lastPosition,
-          infoWindow: InfoWindow(title: 'Marker Title', snippet: 'snippet'),
-          icon: BitmapDescriptor.defaultMarker,
-        ),
-      );
+      if(_marker.length < 2) {
+        _marker.add(
+          lastMarker = Marker(
+            markerId: MarkerId(_lastPosition.toString()),
+            position: _lastPosition,
+            infoWindow: InfoWindow(title: 'Marker Title', snippet: 'snippet'),
+            icon: BitmapDescriptor.defaultMarker,
+            draggable: true,
+          ));
+      }
+      else {
+        _marker.remove(lastMarker);
+        _marker.add(
+            lastMarker = Marker(
+              markerId: MarkerId(_lastPosition.toString()),
+              position: _lastPosition,
+              infoWindow: InfoWindow(title: 'Marker Title', snippet: 'snippet'),
+              icon: BitmapDescriptor.defaultMarker,
+              draggable: true,
+            ));
+        _getPolyline();
+      }
     });
+  }
+
+  _addPolyLine() {
+    PolylineId id = PolylineId("poly");
+    _polyline.add(
+        Polyline(
+          polylineId: id,
+          color: Colors.green,
+          points: polylineCoordinates));
+    setState(() {});
+  }
+
+  _getPolyline() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      "INSERT_KEY_HERE",
+        PointLatLng(_marker.first.position.latitude, _marker.first.position.longitude),
+        PointLatLng(_marker.last.position.latitude, _marker.last.position.longitude),
+        travelMode: TravelMode.driving,
+    );
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    _addPolyLine();
   }
 
   Future<void> _goToPosition() async {
@@ -90,6 +135,7 @@ class _GMapsState extends State<GMaps> {
           ),
           mapType: _mapType,
           markers: _marker,
+          polylines: _polyline,
           onCameraMove: _cameraMove,
         ),
         Align(
