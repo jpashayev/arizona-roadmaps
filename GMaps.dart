@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'RequestAPI.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
@@ -77,17 +78,18 @@ class _GMapsState extends State<GMaps> {
     _polyline.add(
         Polyline(
           polylineId: id,
-          color: Colors.green,
+          color:Colors.red,
           points: polylineCoordinates));
     setState(() {});
   }
 
   _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "INSERT_KEY_HERE",
+      "AIzaSyAP7DdQ-KhPDsk1cBq7XvImwhDayrANsMo",
         PointLatLng(_marker.first.position.latitude, _marker.first.position.longitude),
         PointLatLng(_marker.last.position.latitude, _marker.last.position.longitude),
         travelMode: TravelMode.driving,
+        //wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]
     );
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
