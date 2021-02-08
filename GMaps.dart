@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'RequestAPI.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
@@ -57,6 +56,7 @@ class _GMapsState extends State<GMaps> {
             icon: BitmapDescriptor.defaultMarker,
             draggable: true,
           ));
+        _getPolyline();
       }
       else {
         _marker.remove(lastMarker);
@@ -92,8 +92,10 @@ class _GMapsState extends State<GMaps> {
         //wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]
     );
     if (result.points.isNotEmpty) {
+      if(polylineCoordinates.isNotEmpty)
+        polylineCoordinates.clear();
       result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
     _addPolyLine();
