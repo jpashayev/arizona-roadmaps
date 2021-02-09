@@ -25,7 +25,7 @@ class _GMapsState extends State<GMaps> {
   LatLng _lastPosition = _head;
   MapType _mapType = MapType.normal;
   bool _toggleRouting = false;
-  
+
   static final CameraPosition posOne = CameraPosition(
       target: LatLng(33.048927, -111.093735),
       bearing: 192.111,
@@ -41,6 +41,13 @@ class _GMapsState extends State<GMaps> {
     _lastPosition = position.target;
   }
 
+  _onMapTypeButtonPressed() {
+    setState(() {
+      _mapType =
+      _mapType == MapType.normal ? MapType.satellite : MapType.normal;
+    });
+  }
+
   _onRoutingButtonPressed() {
     setState(() {
       _toggleRouting = !_toggleRouting;
@@ -49,9 +56,9 @@ class _GMapsState extends State<GMaps> {
 
   _onMarkerButtonPressed() {
     setState(() {
-      if(_marker.length > 1) 
+      if(_marker.length > 1)
         _marker.remove(lastMarker);
-        _marker.add(
+      _marker.add(
           lastMarker = Marker(
             markerId: MarkerId(_lastPosition.toString()),
             position: _lastPosition,
@@ -59,34 +66,34 @@ class _GMapsState extends State<GMaps> {
             icon: BitmapDescriptor.defaultMarker,
             draggable: true,
           ));
-        _getPolyline();
+      _getPolyline();
     });
   }
-  
-  
+
+
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     _polyline.add(
         Polyline(
-          polylineId: id,
-          color:Colors.red,
-          points: polylineCoordinates));
+            polylineId: id,
+            color:Colors.red,
+            points: polylineCoordinates));
     setState(() {});
   }
 
   _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "addkey",
-        PointLatLng(_marker.first.position.latitude, _marker.first.position.longitude),
-        PointLatLng(_marker.last.position.latitude, _marker.last.position.longitude),
-        travelMode: TravelMode.driving,
-        //wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]
+      "AIzaSyAP7DdQ-KhPDsk1cBq7XvImwhDayrANsMo",
+      PointLatLng(_marker.first.position.latitude, _marker.first.position.longitude),
+      PointLatLng(_marker.last.position.latitude, _marker.last.position.longitude),
+      travelMode: TravelMode.driving,
+      //wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]
     );
     if (result.points.isNotEmpty) {
       if(polylineCoordinates.isNotEmpty)
         polylineCoordinates.clear();
       result.points.forEach((PointLatLng point) {
-          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
     _addPolyLine();
@@ -117,24 +124,24 @@ class _GMapsState extends State<GMaps> {
         SafeArea(
           bottom: false,
           child: GoogleMap(
-          onTap: (argument) => this.widget._toggle(),
-          zoomControlsEnabled: false,
-          // gestureRecognizers: GestureRecognizerFactory(
-          //
-          // ),
-          compassEnabled: true,
-          myLocationButtonEnabled: false,
-          onMapCreated: _mapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _head,
-            zoom: 7.0,
-            tilt: 2.5,
-          ),
-          mapType: _mapType,
-          markers: _marker,
-          polylines: _toggleRouting ? _polyline : _polelineOff,
-          onCameraMove: _cameraMove,
-        ),),
+            onTap: (argument) => this.widget._toggle(),
+            zoomControlsEnabled: false,
+            // gestureRecognizers: GestureRecognizerFactory(
+            //
+            // ),
+            compassEnabled: true,
+            myLocationButtonEnabled: false,
+            onMapCreated: _mapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _head,
+              zoom: 7.0,
+              tilt: 2.5,
+            ),
+            mapType: _mapType,
+            markers: _marker,
+            polylines: _toggleRouting ? _polyline : _polelineOff,
+            onCameraMove: _cameraMove,
+          ),),
         Align(
           alignment: Alignment.topRight,
           child: SafeArea(
@@ -172,4 +179,4 @@ class _GMapsState extends State<GMaps> {
       ],
     );
   }
-}
+}v
