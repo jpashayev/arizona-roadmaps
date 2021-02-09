@@ -18,17 +18,20 @@ class _GMapsState extends State<GMaps> {
   static const LatLng _head = const LatLng(34.048927, -111.093735);
   final Set<Marker> _marker = {};
   final Set<Polyline> _polyline = {};
+  final Set<Polyline> _polelineOff = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
   Marker lastMarker;
   LatLng _lastPosition = _head;
   MapType _mapType = MapType.normal;
-
+  bool _toggleRouting = false;
+  
   static final CameraPosition posOne = CameraPosition(
       target: LatLng(33.048927, -111.093735),
       bearing: 192.111,
       tilt: 11.0,
-      zoom: 10.0);
+      zoom: 10.0
+  );
 
   _mapCreated(GoogleMapController controller) {
     _control.complete(controller);
@@ -38,16 +41,16 @@ class _GMapsState extends State<GMaps> {
     _lastPosition = position.target;
   }
 
-  _onMapTypeButtonPressed() {
+  _onRoutingButtonPressed() {
     setState(() {
-      _mapType =
-      _mapType == MapType.normal ? MapType.satellite : MapType.normal;
+      _toggleRouting = !_toggleRouting;
     });
   }
 
   _onMarkerButtonPressed() {
     setState(() {
-      if(_marker.length < 2) {
+      if(_marker.length > 1) 
+        _marker.remove(lastMarker);
         _marker.add(
           lastMarker = Marker(
             markerId: MarkerId(_lastPosition.toString()),
@@ -57,22 +60,10 @@ class _GMapsState extends State<GMaps> {
             draggable: true,
           ));
         _getPolyline();
-      }
-      else {
-        _marker.remove(lastMarker);
-        _marker.add(
-            lastMarker = Marker(
-              markerId: MarkerId(_lastPosition.toString()),
-              position: _lastPosition,
-              infoWindow: InfoWindow(title: 'Marker Title', snippet: 'snippet'),
-              icon: BitmapDescriptor.defaultMarker,
-              draggable: true,
-            ));
-        _getPolyline();
-      }
     });
   }
-
+  
+  
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     _polyline.add(
@@ -85,7 +76,7 @@ class _GMapsState extends State<GMaps> {
 
   _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "your API key",
+      "addkey",
         PointLatLng(_marker.first.position.latitude, _marker.first.position.longitude),
         PointLatLng(_marker.last.position.latitude, _marker.last.position.longitude),
         travelMode: TravelMode.driving,
@@ -123,7 +114,9 @@ class _GMapsState extends State<GMaps> {
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
-        GoogleMap(
+        SafeArea(
+          bottom: false,
+          child: GoogleMap(
           onTap: (argument) => this.widget._toggle(),
           zoomControlsEnabled: false,
           // gestureRecognizers: GestureRecognizerFactory(
@@ -139,15 +132,13 @@ class _GMapsState extends State<GMaps> {
           ),
           mapType: _mapType,
           markers: _marker,
-          polylines: _polyline,
+          polylines: _toggleRouting ? _polyline : _polelineOff,
           onCameraMove: _cameraMove,
-        ),
+        ),),
         Align(
           alignment: Alignment.topRight,
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 28.0,
-            ),
+          child: SafeArea(
+            right: false,
             child: Column(
               children: [
                 ElevatedButton(
@@ -167,6 +158,12 @@ class _GMapsState extends State<GMaps> {
                     _goToPosition();
                   },
                   child: Icon(Icons.my_location),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _onRoutingButtonPressed();
+                  },
+                  child: Icon(Icons.alt_route),
                 ),
               ],
             ),
