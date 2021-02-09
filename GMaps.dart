@@ -85,7 +85,7 @@ class _GMapsState extends State<GMaps> {
 
   _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyAP7DdQ-KhPDsk1cBq7XvImwhDayrANsMo",
+      "your API key",
         PointLatLng(_marker.first.position.latitude, _marker.first.position.longitude),
         PointLatLng(_marker.last.position.latitude, _marker.last.position.longitude),
         travelMode: TravelMode.driving,
