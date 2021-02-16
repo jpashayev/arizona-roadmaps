@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _scaffoldKey,
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
