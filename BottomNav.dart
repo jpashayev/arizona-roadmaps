@@ -1,5 +1,5 @@
-import 'package:app_one/SearchPage.dart';
-import 'package:app_one/ThirdPage.dart';
+import 'SearchPage.dart';
+import 'CampsitePage.dart';
 import 'package:flutter/material.dart';
 import 'Detail.dart';
 import 'dart:core';
@@ -18,11 +18,6 @@ Widget bottomNav(BuildContext context, bool _visible, final _scaffoldKey) {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.home, color: Colors.green),
-          iconSize: 30.0,
-          onPressed: () {},
-        ),
-        IconButton(
           icon: Icon(Icons.search, color: Colors.green),
           onPressed: () {
             showSearch(context: context, delegate: DataSearch(listWords));
@@ -35,7 +30,7 @@ Widget bottomNav(BuildContext context, bool _visible, final _scaffoldKey) {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdPage()),
+              MaterialPageRoute(builder: (context) => CampsitePage()),
             );
           },
         ),

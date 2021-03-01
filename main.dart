@@ -65,7 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
               CustomListTile(Icons.explore_outlined, 'Discover', ()=>{}),
               CustomListTile(Icons.people_outline_sharp, 'About Us', ()=>{}),
               CustomListTile(Icons.live_help_sharp, 'Help', ()=>{}),
-              CustomListTile(Icons.article_sharp , 'Campsite Data', ()=>{}),
             ],
           ),
         ),
