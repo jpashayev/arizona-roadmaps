@@ -146,37 +146,41 @@ class _GMapsState extends State<GMaps> {
           alignment: Alignment.topRight,
           child: SafeArea(
             right: false,
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _onMapTypeButtonPressed();
-                  },
-                  child: Icon(Icons.map_outlined),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _onMarkerButtonPressed();
-                  },
-                  child: Icon(Icons.post_add),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _goToPosition();
-                  },
-                  child: Icon(Icons.my_location),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _onRoutingButtonPressed();
-                  },
-                  child: Icon(Icons.alt_route),
-                ),
-              ],
+            child: AnimatedContainer(
+              width: _visible ? 75.0 : 0,
+              duration: Duration(milliseconds: 200),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _onMapTypeButtonPressed();
+                    },
+                    child: Icon(Icons.map_outlined),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onMarkerButtonPressed();
+                    },
+                    child: Icon(Icons.post_add),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _goToPosition();
+                    },
+                    child: Icon(Icons.my_location),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onRoutingButtonPressed();
+                    },
+                    child: Icon(Icons.alt_route),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ],
     );
   }
-}v
+}
