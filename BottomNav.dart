@@ -1,13 +1,12 @@
-import 'package:app_one/SearchPage.dart';
-import 'package:app_one/ThirdPage.dart';
+import 'SearchPage.dart';
+import 'CampsitePage.dart';
 import 'package:flutter/material.dart';
-import 'Detail.dart';
 import 'dart:core';
 
-Widget bottomNav(BuildContext context, bool _visible, final _scaffoldKey) {
+Widget bottomNav(BuildContext context, bool _visible, final _scaffoldKey, String page, List<String> tempLocation, SearchPage search) {
   return AnimatedContainer(
     height: _visible ? 45.0 : 0,
-    duration: Duration(milliseconds: 500),
+    duration: Duration(milliseconds: 200),
     decoration: BoxDecoration(
       border: Border(
         top: BorderSide(width: 0.25, color: Colors.black),
@@ -18,25 +17,29 @@ Widget bottomNav(BuildContext context, bool _visible, final _scaffoldKey) {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.home, color: Colors.green),
+          icon: Icon(Icons.home, color: page == "first" ? Colors.green : Colors.grey),
           iconSize: 30.0,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Icon(Icons.search, color: Colors.green),
           onPressed: () {
-            showSearch(context: context, delegate: DataSearch(listWords));
-
-            MaterialPageRoute(builder: (context) => SearchPage());
+            if(page != "first")
+              Navigator.pop(context);
           },
         ),
         IconButton(
-          icon: Icon(Icons.account_box_outlined, color: Colors.grey),
+          icon: Icon(Icons.search, color: page == "second" ? Colors.green : Colors.grey),
           onPressed: () {
-            Navigator.push(
+            search.press();
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.account_box_outlined, color: page == "third" ? Colors.green : Colors.grey),
+          onPressed: () {
+            if(page != "third")
+              Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdPage()),
-            );
+              MaterialPageRoute(builder: (context) => CampsitePage(tempLocation, search))
+              );
+            else
+              Navigator.pop(context);
           },
         ),
         IconButton(
