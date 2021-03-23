@@ -20,7 +20,7 @@ class CustomListTile extends StatelessWidget{
           splashColor: Colors.greenAccent,
           onTap: onTap,
           child: Container(
-            height: 50,
+            height: 75,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
