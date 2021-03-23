@@ -59,6 +59,15 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: <Color>[
+                    Colors.green,
+                    Colors.greenAccent
+                  ])
+                ),
+                child: Text('Place our app logo here'),
+              ),
               CustomListTile(Icons.favorite_outline_sharp, 'Favorites', ()=>{}),
               CustomListTile(Icons.sports_handball_sharp, 'Dominant Hand', ()=>{}), 
               CustomListTile(Icons.people_outline_sharp, 'About Us', ()=>{}),
