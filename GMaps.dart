@@ -7,7 +7,6 @@ import 'dart:core';
 import 'SearchPage.dart';
 import 'SettingsDrawer.dart';
 import 'BottomNav.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
