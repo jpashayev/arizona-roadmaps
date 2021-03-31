@@ -56,8 +56,19 @@ class AddCampsiteForm extends StatefulWidget {
 }
 
 class _AddCampsiteFormState extends State<AddCampsiteForm> {
+  final databaseReference = FirebaseDatabase.instance.reference();
   final _formKey = GlobalKey<FormState>();
-  final textController = TextEditingController();
+  final campNameController = TextEditingController();
+  final addressController = TextEditingController();
+
+  _addToDatabase() {
+	setState(() {
+	  databaseReference.child(8).set({
+		"Name": campNameController.text,
+		"Address": addressController.text,
+	  });
+	});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +97,7 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: TextFormField(
+				    controller: campNameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Campsite name",
@@ -102,7 +114,7 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: TextFormField(
-                    controller: textController,
+                    controller: addressController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Campsite address",
@@ -146,7 +158,9 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         this.widget.addCampsiteForm("yo");
-
+                        
+                        addToDatabase();
+                        
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Campsite submitted!")));
                       }
