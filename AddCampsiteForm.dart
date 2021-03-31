@@ -128,6 +128,9 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                     },
                   ),
                 ),
+		      Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text("or"),
@@ -147,6 +150,7 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                     },
                   ),
                 ),
+			  ],),
                 Padding(
                   padding: const EdgeInsets.only(top: 24.0),
                   child: ElevatedButton(
