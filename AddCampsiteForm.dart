@@ -142,7 +142,7 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                     child: Text("Use Current Location"),
                     onPressed: () {
                       setState(() {
-                        textController.text = "User's current location here";
+                        addressController.text = "User's current location here";
                       });
                     },
                   ),
