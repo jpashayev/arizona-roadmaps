@@ -5,6 +5,7 @@ import 'SettingsDrawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'Campsite.dart';
 import 'campsiteRepository.dart';
+import 'AddCampsiteForm.dart';
 
 class CampsitePage extends StatefulWidget {
   //Passed variables
@@ -47,7 +48,26 @@ class _CampsitePageState extends State<CampsitePage> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Campsites"),
+        
         //TO DO --> Call to method to (addCampsite)
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 15.0),
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AddCampsiteForm(addCampsite: _addCampsite);
+                    });
+              },
+              child: Icon(
+                Icons.library_add,
+                size: 26.0,
+              ),
+            ),
+          ),
+        ],
       ),
 
       //StreamBuilder for Querying Snapshots
