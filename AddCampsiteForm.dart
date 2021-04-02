@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'Campsite.dart';
+import 'CampsiteRepository.dart';
 
 class AddCampsiteForm extends StatefulWidget {
-  //final ValueChanged<String> addCampsite;
+  final ValueChanged<String> addCampsite;
 
-  AddCampsiteForm(); //{this.addCampsite});
+  AddCampsiteForm({this.addCampsite});
 
   @override
   _AddCampsiteFormState createState() => _AddCampsiteFormState();
@@ -128,7 +131,13 @@ class _AddCampsiteFormState extends State<AddCampsiteForm> {
                       onPrimary: Colors.white,
                     ),
                     child: Text("Submit Campsite"),
-                    onPressed: () {},
+                    onPressed: () {
+                      double lat = double.parse(latController.text);
+                      double lng = double.parse(latController.text);
+                      LatLng pos = new LatLng(lat, lng);
+
+                      addCampsite(new Campsite(campNameController.text, distanceController.text, pos));
+                    },
                   ),
                 )
               ],
