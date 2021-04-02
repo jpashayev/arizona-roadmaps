@@ -1,14 +1,12 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'BottomNav.dart';
 import 'SettingsDrawer.dart';
-import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'Campsite.dart';
+import 'campsiteRepository.dart';
 
 class CampsitePage extends StatefulWidget {
-
   //Passed variables
   final search;
   final ValueChanged<LatLng> changeMarker;
@@ -16,134 +14,115 @@ class CampsitePage extends StatefulWidget {
   //CampsitePage Constructor
   CampsitePage(this.search, {this.changeMarker});
 
-
   //override and create a State of CampsitePage
   @override
   _CampsitePageState createState() => _CampsitePageState();
 }
 
+//create state of CampsitePage
 class _CampsitePageState extends State<CampsitePage> {
 
   //Declare & Initialize scaffoldKey to GlobalKey
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  //Create list of type Campsite to store all db campsites
-  final List<Campsite> _sites = [];
-
-  //future async method to return campsites from db
-  Future<List<Campsite>> fetchSites() async {
-
-    //Declare & Initialize URL
-    //Get http request
-    var uri = Uri.parse('https://arizona-roadmaps-default-rtdb.firebaseio.com');
-    var response = await http.get(uri);
-
-
-    //List of campsites
-    var sites = [];
-
-    //Check status code 200
-    if (response.statusCode == 200) {
-
-      //decode json --> import library dart:convert
-      var sitesJson = json.decode(response.body);
-
-      //for each to cycle through decoded json
-      for (var site in sitesJson) {
-        //add iteration to List site
-        sites.add(Campsite.fromJson(site));
-      }
-    }
-
-    //return List sites
-    return sites;
-  }
-
+  //create DataRepos variable
+  final DataRepository repository = DataRepository();
 
   @override
   initState() {
-
-    //???
     super.initState();
-
-    //fetchSite
-    fetchSites().then((value) =>
-      setState(() {
-        _sites.addAll(value);
-      })
-    );
-        // .catchError((error) => handleError(error));
-    
   }
 
-
-  //Method to send Lat/Lng to changeMarker
-  getCoordinates(int index) {
-
-    //Take current iteration and returns coordinates to new LatLng
-    LatLng pos = LatLng(
-        double.parse(_sites[index].latitude),
-        double.parse(_sites[index].longitude));
-
-    //Call changeMarker with new coordinates
-    this.widget.changeMarker(pos);
-  }
-  @override
+  //Widget to build page, call campsites
   Widget build(BuildContext context) {
+    return _buildCampsite(context);
+  }
 
+  //Widget to build campsites
+  //Includes --> Scaffold, AppBar, StreamBuilder
+  // [Remaining] button to add campsite in appbar
+  Widget _buildCampsite(BuildContext context) {
     return Scaffold(
+      //Global Scaffold Key
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Certified Campsites" + _sites.length.toString()),
-        actions: <Widget>[
-          new Container(),
-        ],
+        title: Text("Campsites"),
+        //TO DO --> Call to method to (addCampsite)
       ),
-      //create ListView for easy list, enable separated builder for dividers
-      //use lists for length
-      body: ListView.separated(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: _sites.length,
-        itemBuilder: (BuildContext context, index) {
-          return new Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+
+      //StreamBuilder for Querying Snapshots
+      //return Loading Indicator if no data
+      //return call to buildList if data exists
+      body: StreamBuilder<QuerySnapshot> (
+        stream: repository.getStream(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return LinearProgressIndicator();
+          return _buildList(context, snapshot.data.documents);
+        }),
+          endDrawer: SizedBox(
+            width: 175.0,
+            child: SettingsDrawer(),
+          ),
+          bottomNavigationBar:
+              bottomNav(context, true, _scaffoldKey, "third", this.widget.search),
+    );
+  }
+
+  //Widget for Building List of Campsites
+  //Load context and create map of data for each doc in the collection
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.all(10.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot snapshot) {
+
+    //get campsites from snapshot
+    final site = Campsite.fromSnapshot(snapshot);
+
+    //return campsites on card
+      return new Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ExpansionTile(
+              title: Text(site.name),
+              trailing: Icon(Icons.add_road_outlined),
               children: [
-                ExpansionTile(
-                  title: Text("${_sites[index].name}"),
-                  trailing: Icon(Icons.add_road_outlined),
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(7.0),
-                      child: Text("Latitude: ${_sites[index].latitude}"),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(7.0),
-                      child: Text("Latitude: ${_sites[index].longitude}"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        getCoordinates(index);
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.search),
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text("Latitude: " + site.latlng.latitude.toString()),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text("Latitude: " + site.latlng.longitude.toString()),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    getCoordinates(snapshot);
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.search),
                 ),
               ],
             ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
-      endDrawer: SizedBox(
+          ],
+        ),
+      );
+  }
 
+  //Method to send Lat/Lng from GeoPoint to changeMarker
+  getCoordinates(DocumentSnapshot snapshot) {
 
+    //get campsites from snapshot
+    final site = Campsite.fromSnapshot(snapshot);
 
-        width: 175.0,
-        child: SettingsDrawer(),
-      ),
-      bottomNavigationBar: bottomNav(context, true, _scaffoldKey, "third", this.widget.search),
-    );
+    //Take current iteration and returns coordinates to new LatLng
+    LatLng pos = LatLng(site.latlng.latitude, site.latlng.longitude);
+
+    //Call changeMarker with new coordinates
+    this.widget.changeMarker(pos);
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'CustomListTile.dart';
 import 'GMaps.dart';
 
 void main() {
