@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(new MaterialApp(home: new MyApp()));
-}
+class AddCampsiteForm extends StatefulWidget {
+  //final ValueChanged<String> addCampsite;
 
-class MyApp extends StatefulWidget {
+  AddCampsiteForm(); //{this.addCampsite});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  _AddCampsiteFormState createState() => _AddCampsiteFormState();
 }
 
-class _MyAppState extends State<MyApp> {
-  List<String> _sites = [];
-
-  _addCampsiteForm(String campsite) {
-    setState(() {
-      _sites.add(campsite);
-    });
-  }
+class _AddCampsiteFormState extends State<AddCampsiteForm> {
+  final _formKey = GlobalKey<FormState>();
+  final campNameController = TextEditingController();
+  final latController = TextEditingController();
+  final lngController = TextEditingController();
+  final distanceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +25,16 @@ class _MyAppState extends State<MyApp> {
           Positioned(
             right: -40.0,
             top: -40.0,
-            child: InkResponse(
+            child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: CircleAvatar(
-                child: Icon(Icons.close),
-                backgroundColor: Colors.green,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: CircleAvatar(
+                  child: Icon(Icons.close),
+                  backgroundColor: Colors.green,
+                ),
               ),
             ),
           ),
