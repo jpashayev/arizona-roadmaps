@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
-import 'dart:core';
+
+import 'BottomNav.dart';
 import 'SearchPage.dart';
 import 'SettingsDrawer.dart';
-import 'BottomNav.dart';
 
 class GMaps extends StatefulWidget {
   final Function _toggle;
@@ -149,8 +150,8 @@ class _GMapsState extends State<GMaps> {
 
   @override
   Widget build(BuildContext context) {
-    SearchPage search = new SearchPage(context,
-        changeMarker: _changeMarker);
+    //SearchPage Object
+    SearchPage search = new SearchPage(context, changeMarker: _changeMarker);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -229,8 +230,8 @@ class _GMapsState extends State<GMaps> {
         width: 175.0,
         child: SettingsDrawer(),
       ),
-      bottomNavigationBar:
-          bottomNav(context, _visible, _scaffoldKey, "first", search),
+      bottomNavigationBar: bottomNav(
+          context, _visible, _scaffoldKey, "first", search, _changeMarker),
     );
   }
 }

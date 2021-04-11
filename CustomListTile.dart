@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomListTile extends StatelessWidget{
+class CustomListTile extends StatelessWidget {
   final Function onTap;
   final String text;
   final IconData icon;
@@ -14,8 +14,7 @@ class CustomListTile extends StatelessWidget{
       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
       child: Container(
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-        ),
+            border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
         child: InkWell(
           splashColor: Colors.greenAccent,
           onTap: onTap,
@@ -29,9 +28,10 @@ class CustomListTile extends StatelessWidget{
                     Icon(icon),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(text, style: TextStyle(
-                          fontSize: 16.0
-                      ),),
+                      child: Text(
+                        text,
+                        style: TextStyle(fontSize: 16.0),
+                      ),
                     ),
                   ],
                 ),
