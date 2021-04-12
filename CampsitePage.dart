@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -74,7 +76,7 @@ class _CampsitePageState extends State<CampsitePage> {
                 child: Icon(
                   Icons.library_add,
                   size: 26.0,
-                  color: Colors.cyanAccent[400],
+                  color: Colors.amberAccent[400],
                 ),
               ),
             ),
@@ -116,225 +118,261 @@ class _CampsitePageState extends State<CampsitePage> {
 
     //return campsites on card
     return new Card(
+      margin: EdgeInsets.all(6.0),
+      color: Colors.cyanAccent[700],
       //Column
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //ExpansionTile
-          ExpansionTile(
-            title: Text("Campsite: " + site.name,
-                style: TextStyle(
-                    color: Colors.red[900], fontWeight: FontWeight.bold)),
-            trailing: Icon(Icons.add_road_outlined),
-            backgroundColor: Colors.amberAccent[100],
-            initiallyExpanded: false,
-            childrenPadding: EdgeInsets.all(8.0),
-            collapsedBackgroundColor: Colors.green,
-            children: [
-              //Distance Tooltip
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(7.0),
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(5.0),
+        margin: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: ExpansionTile(
+          title: Text("Campsite: " + site.name,
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          trailing: Icon(Icons.assistant_direction),
+          backgroundColor: Colors.amberAccent[100],
+          initiallyExpanded: false,
+          childrenPadding: EdgeInsets.all(8.0),
+          collapsedBackgroundColor: Colors.green,
+          children: [
+            //Distance Tooltip
+            Row(
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 10.0, 25.0),
+                  decoration: BoxDecoration(
+                    color: Colors.amber[600],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                   child: Tooltip(
-                      message: 'Distance Traveled on Dirt Road',
-                      child: Text(
-                          "Trek: " + site.distance.toString() + " Miles",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black))),
-                ),
-              ),
+                    message: 'Distance Traveled on Dirt Road',
+                    child: Text(
+                      "Trek: " + site.distance.toString() + " Miles",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: 15.5),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                )),
+              ],
+            ),
 
-              //Padding
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 3,
-                    indent: 5.0,
-                    endIndent: 5.0,
-                  )),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 5,
+                  indent: 5.0,
+                  endIndent: 5.0,
+                )),
 
-              //Tread Depth Tooltip
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
+            //Tread Depth Tooltip
+            Row(
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 10.0, 25.0),
+                  decoration: BoxDecoration(
+                    color: Colors.amber[600],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                   child: Tooltip(
                     message:
                         'The recommended average Tread Depth for your vehicle',
                     padding: EdgeInsets.all(5.0),
                     child: Text("Tread Depth: " + site.treadDepth.toString(),
                         style: TextStyle(
-                            fontWeight: FontWeight.w400, color: Colors.black)),
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontSize: 15.5),
+                        textAlign: TextAlign.left),
                   ),
-                ),
-              ),
+                )),
+              ],
+            ),
 
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 3,
-                    indent: 5.0,
-                    endIndent: 5.0,
-                  )),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 5,
+                  indent: 5.0,
+                  endIndent: 5.0,
+                )),
 
-              //Suspension Tooltip
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
+            //Suspension Tooltip
+            Row(
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 10.0, 25.0),
+                  decoration: BoxDecoration(
+                    color: Colors.amber[600],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                   child: Tooltip(
                     message:
                         'The recommended minimum suspension for your vehicle',
                     padding: EdgeInsets.all(5.0),
                     child: Text("Suspension: " + site.suspension.toString(),
                         style: TextStyle(
-                            fontWeight: FontWeight.w400, color: Colors.black)),
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontSize: 15.5),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                ),
-              ),
+                )),
+              ],
+            ),
 
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 3,
-                    indent: 5.0,
-                    endIndent: 5.0,
-                  )),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 5,
+                  indent: 5.0,
+                  endIndent: 5.0,
+                )),
 
-              //Row --> Gravel Size & Gravel Quantity
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
-                    alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
-                      color: Colors.amber[800],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Tooltip(
-                      message:
-                          'The average gravel size encountered on the road',
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
-                          "Gravel Size: \n\n" +
-                              site.gravelSize.toString().toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black)),
-                    ),
-                  )),
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
-                    alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent[100],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Tooltip(
-                      message:
-                          'The average gravel quantity encountered on the road',
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
-                          "Gravel Quantity: \n\n" +
-                              site.gravelQuantity.toString().toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black)),
-                    ),
-                  ))
-                ],
-              ),
-
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 5,
-                    indent: 5.0,
-                    endIndent: 5.0,
-                  )),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
-                    alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
-                      color: Colors.amber[600],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+            //Row --> Gravel Size & Gravel Quantity
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                    color: Colors.amber[800],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Tooltip(
+                    message: 'The average gravel size encountered on the road',
+                    padding: EdgeInsets.all(5.0),
                     child: Text(
-                        "Spare: \n\n" + site.spare.toString().toUpperCase(),
+                        "Gravel Size: \n\n" +
+                            site.gravelSize.toString().toUpperCase(),
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black)),
-                  )),
-                ],
-              ),
-
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 5,
-                    indent: 5.0,
-                    endIndent: 5.0,
-                  )),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
-                    alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
-                      color: Colors.amber[500],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 15.5)),
+                  ),
+                )),
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent[100],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Tooltip(
+                    message:
+                        'The average gravel quantity encountered on the road',
+                    padding: EdgeInsets.all(5.0),
                     child: Text(
-                        "Permit: \n\n" + site.permit.toString().toUpperCase(),
+                        "Gravel Quantity: \n\n" +
+                            site.gravelQuantity.toString().toUpperCase(),
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black)),
-                  )),
-                ],
-              ),
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 15.5)),
+                  ),
+                ))
+              ],
+            ),
 
-              //Create Route
-              //Calls getCoordinates and pops screen --> home
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(4.0, 3.0, 12.0, 3.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        getCoordinates(site.latlng);
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.search),
-                    ),
-                  ))
-            ],
-          ),
-        ],
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 5,
+                  indent: 5.0,
+                  endIndent: 5.0,
+                )),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                    color: Colors.amber[600],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                      "Spare: \n\n" + site.spare.toString().toUpperCase(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 15.5)),
+                )),
+              ],
+            ),
+
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
+                child: Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 5,
+                  indent: 5.0,
+                  endIndent: 5.0,
+                )),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Container(
+                  padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 25.0),
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                    color: Colors.amber[500],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                      "Permit: \n\n" + site.permit.toString().toUpperCase(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 15.5)),
+                )),
+              ],
+            ),
+
+            //Create Route
+            //Calls getCoordinates and pops screen --> home
+            Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(4.0, 3.0, 12.0, 3.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      getCoordinates(site.latlng);
+                      Navigator.pop(context);
+                    },
+                    child: Icon(Icons.search),
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }
