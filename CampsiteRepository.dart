@@ -12,6 +12,10 @@ class DataRepository {
     return collection.snapshots();
   }
 
+  addCampsite(Campsite campsite) async {
+    await collection.add(campsite.toJson());
+  }
+
   // update Each Campsite if changed
   updateCampsite(Campsite campsite) async {
     await collection
