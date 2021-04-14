@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'Campsite.dart';
 import 'CampsiteRepository.dart';
 import 'SettingsDrawer.dart';
-// import 'AddCampsiteForm.dart';
+import 'CampsiteForm.dart';
 
 class CampsitePage extends StatefulWidget {
   //Passed variables
@@ -32,6 +32,10 @@ class _CampsitePageState extends State<CampsitePage> {
   @override
   initState() {
     super.initState();
+  }
+
+  addCampsite(Campsite campsite)  {
+    repository.addCampsite(campsite);
   }
 
   //Widget to build page, call campsites
@@ -69,8 +73,7 @@ class _CampsitePageState extends State<CampsitePage> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return;
-                        // return AddCampsiteForm(addCampsite: _addCampsite);
+                        return CampsiteForm(addCampsite: addCampsite);
                       });
                 },
                 child: Icon(
