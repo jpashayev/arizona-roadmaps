@@ -118,7 +118,7 @@ class _CampsitePageState extends State<CampsitePage> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot snapshot) {
     //get campsites from snapshot
     final site = Campsite.fromSnapshot(snapshot);
-
+    String favName;
     //return campsites on card
     return new Card(
       margin: EdgeInsets.all(6.0),
@@ -136,6 +136,10 @@ class _CampsitePageState extends State<CampsitePage> {
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
           trailing: Icon(Icons.assistant_direction),
+          IconButton(icon: Icon(Icons.favorite_border), onPressed: (){ // favorites button
+            favName = site.name,
+            Favorites(favName : favName);
+          }),
           backgroundColor: Colors.amberAccent[100],
           initiallyExpanded: false,
           childrenPadding: EdgeInsets.all(8.0),
