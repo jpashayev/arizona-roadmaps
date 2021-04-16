@@ -20,8 +20,8 @@ class SettingsDrawer extends StatelessWidget {
               Icons.favorite_outline_sharp,
               'Favorites',
               () => {
-                    // Navigator.push(context,
-                    // MaterialPageRoute(builder: (context) => Favorites()))
+                     Navigator.push(context,
+                         MaterialPageRoute(builder: (context) => Favorites()))
                   }),
           CustomListTile(
               Icons.people_outline_sharp,
