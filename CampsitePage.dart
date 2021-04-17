@@ -12,7 +12,7 @@ import 'CampsiteForm.dart';
 class CampsitePage extends StatefulWidget {
   //Passed variables
   final ValueChanged<LatLng> changeMarker;
-
+  
   //CampsitePage Constructor
   CampsitePage(this.changeMarker);
 
@@ -28,7 +28,10 @@ class _CampsitePageState extends State<CampsitePage> {
 
   //create DataRepos variable
   final DataRepository repository = DataRepository();
-
+  
+  //favorite List variable
+  List<String> favList = [];
+  
   @override
   initState() {
     super.initState();
@@ -118,7 +121,6 @@ class _CampsitePageState extends State<CampsitePage> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot snapshot) {
     //get campsites from snapshot
     final site = Campsite.fromSnapshot(snapshot);
-    String favName;
     //return campsites on card
     return new Card(
       margin: EdgeInsets.all(6.0),
@@ -136,9 +138,8 @@ class _CampsitePageState extends State<CampsitePage> {
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
           trailing: Icon(Icons.assistant_direction),
-          IconButton(icon: Icon(Icons.favorite_border), onPressed: (){ // favorites button
-            favName = site.name,
-            Favorites(favName : favName);
+          leading: IconButton(icon: Icon(Icons.favorite_border), onPressed: (){ // favorites button
+            favList.add(site.name);
           }),
           backgroundColor: Colors.amberAccent[100],
           initiallyExpanded: false,
@@ -382,8 +383,11 @@ class _CampsitePageState extends State<CampsitePage> {
         ),
       ),
     );
+    // send fav list to favorites
+    Favorites(favList : favList);
   }
-
+  
+  
   //Method to send Lat/Lng from GeoPoint to changeMarker
   getCoordinates(GeoPoint latlng) {
     //Take current iteration and returns coordinates to new LatLng
