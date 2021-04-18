@@ -1,4 +1,4 @@
-//import 'dart:ui';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,6 +9,7 @@ class HelpDetailScreen extends StatelessWidget {
   final String subTitle;
 
   HelpDetailScreen({Key key, @required this.itemHolder, @required this.content, @required this.subTitle}) : super(key: key);
+
 
   goBack(BuildContext context){
     Navigator.pop(context);
@@ -36,39 +37,37 @@ class HelpDetailScreen extends StatelessWidget {
 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
+              children:  [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     subTitle,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    )
+                   style: TextStyle(
+                     fontWeight: FontWeight.bold,
+                     fontSize: 16,
+                       )
 
-                  ),
+                   ),
+            ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    content,
+                      style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                    ),
+                   ),
                 ),
-                Text(
-                  content,
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 14,
-                  ),
-                )
+
               ],
-
-
-
 
 
             ),
           ),
 
 
-
-
             ),
-
 
 
         );
