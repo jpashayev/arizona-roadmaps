@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -40,7 +39,7 @@ class HelpDetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children:  [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     subTitle,
                    style: TextStyle(
@@ -51,7 +50,7 @@ class HelpDetailScreen extends StatelessWidget {
                    ),
             ),
                 Padding(
-
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     content,
                       style: TextStyle(
